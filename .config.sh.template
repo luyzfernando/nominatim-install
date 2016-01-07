@@ -8,7 +8,7 @@ utf8Language=en_GB
 # Define the website hostname and e-mail for the VirtualHost
 # Several option groups here, comment in / out as necessary
 # Localhost
-websiteurl=nominatim.localhost
+websiteurl=localhost
 emailcontact=nominatim@localhost
 # CycleStreets
 #websiteurl=nominatim.cyclestreets.net
@@ -23,7 +23,7 @@ nominatimVHfile=400-nominatim.conf
 
 # Wikipedia rankings
 # Default is yes. To turn off this feature leave as blank.
-includeWikipedia=yes
+includeWikipedia=
 
 # Set up the website for use with Apache
 wwwNominatim=/websites/www/nominatim
@@ -55,8 +55,8 @@ osm2pgsqlcache="--osm2pgsql-cache 512"
 # Several option groups here, comment in / out as necessary
 # Andorra (install, without wikipedia data, takes 12 minutes)
 # Test street: Andorra la Vella
-osmdatafolder=europe/
-osmdatacountry=andorra
+osmdatafolder=south-america/
+osmdatacountry=brazil
 
 ## British Isles
 #osmdatafolder=europe/

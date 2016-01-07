@@ -1,6 +1,6 @@
 #!/bin/sh
 # Script to install Nominatim on Ubuntu
-# Tested on 14.04 (View Ubuntu version using 'lsb_release -a') using Postgres 9.3
+# Tested on 14.04 (View Ubuntu version using 'lsb_release -a') using Postgres 9.4
 #
 # Based on OSM Nominatim wiki:
 # http://wiki.openstreetmap.org/wiki/Nominatim/Installation
@@ -166,9 +166,9 @@ apt-get -y install sudo wget
 apt-get -y install build-essential libxml2-dev libgeos-dev libpq-dev libbz2-dev libtool automake libproj-dev
 apt-get -y install libboost-dev libboost-system-dev libboost-filesystem-dev libboost-thread-dev libexpat-dev
 # Note: osmosis is removed from this next line (compared to wiki page) as it is installed directly
-apt-get -y install gcc proj-bin libgeos-c1 libgeos++-dev
+apt-get -y install gcc proj-bin libgeos-c1v5 libgeos++-dev
 apt-get -y install php5 php-pear php5-pgsql php5-json php-db
-apt-get -y install postgresql postgis postgresql-contrib postgresql-9.3-postgis-2.1 postgresql-server-dev-9.3
+apt-get -y install postgresql postgis postgresql-contrib postgresql-9.4-postgis-2.1 postgresql-server-dev-9.4
 apt-get -y install libprotobuf-c0-dev protobuf-c-compiler
 
 # Additional packages
@@ -193,6 +193,7 @@ service postgresql restart
 
 # Nominatim munin
 # !! Look at the comments at the top of the nominatim_importlag file in the following and copy the setup section to a new file in: /etc/munin/plugin-conf.d/
+if [ -z "${dockerInstall}" ]; then
 ln -s '/home/nominatim/Nominatim/munin/nominatim_importlag' '/etc/munin/plugins/nominatim_importlag'
 ln -s '/home/nominatim/Nominatim/munin/nominatim_query_speed' '/etc/munin/plugins/nominatim_query_speed'
 ln -s '/home/nominatim/Nominatim/munin/nominatim_nominatim_requests' '/etc/munin/plugins/nominatim_nominatim_requests'
@@ -202,7 +203,7 @@ ln -s '/home/nominatim/Nominatim/munin/nominatim_nominatim_requests' '/etc/munin
 apt-get -y install libdbd-pg-perl
 munin-node-configure --shell | grep postgres | sh
 service munin-reload restart
-
+fi
 
 # We will use the Nominatim user's homedir for the installation, so switch to that
 cd /home/${username}
@@ -241,7 +242,7 @@ localNominatimSettings=/home/${username}/Nominatim/settings/local.php
 cat > ${localNominatimSettings} << EOF
 <?php
    // Paths
-   @define('CONST_Postgresql_Version', '9.3');
+   @define('CONST_Postgresql_Version', '9.4');
    @define('CONST_Postgis_Version', '2.1');
 
    // Osmosis
